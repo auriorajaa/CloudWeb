@@ -9,7 +9,7 @@
    <script type="module" src="/database-config.js"></script>
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&display=swap"
+   <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700;1,400&display=swap"
       rel="stylesheet">
    <link rel="icon" href="/assets/moba.png">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
@@ -86,24 +86,20 @@
 
          <main class="p-4 md:ml-64 h-auto pt-20">
             <div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-fit-content mb-4">
-
                <div class="flex flex-col">
                   <input type="text" id="article-title-edit"
                      class="text-gray-100 text-5xl bg-transparent border-none focus:ring-gray-50 focus:border-none block w-full placeholder-gray-400 placeholder-opacity-70"
                      placeholder="Guide Title..." required="">
-
                   <img id="display-thumbnail-image" src="" alt="" class="rounded-md w-64 pt-4 px-3">
                   <label for="" class="px-3 italic text-sm text-gray-100">Your current thumbnail</label>
-
                   <div class="py-4 px-3">
-                     <label class="block mb-2 text-sm font-medium text-gray-500" for="file_input">Upload
-                        file for Thumbnail</label>
+                     <label class="block mb-2 text-sm font-medium text-gray-500" for="file_input">Upload file for
+                        Thumbnail</label>
                      <input
                         class="block w-64 text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-gray-50 focus:outline-none"
                         aria-describedby="file_input_help" id="file_input-edit" type="file"
                         accept=".jpg, .jpeg, .png, .gif" required>
                      <p class="mt-1 text-sm text-gray-400" id="file_input_help">SVG, PNG, JPG or GIF.</p>
-
                      <select id="article-category-edit"
                         class="block py-2.5 my-7 px-2 text-md text-gray-100 bg-gray-700 border rounded-md border-gray-200 appearance-none focus:outline-none focus:ring-gray-400 focus:border-gray-400 peer"
                         required>
@@ -115,18 +111,29 @@
                         <option value="support">Support</option>
                         <option value="asassins">Asassins</option>
                      </select>
-
                      <textarea id="content-article-edit" cols="30" rows="10"></textarea>
-
+                     <div class="accordion">
+                        <div class="accordion-header cursor-pointer bg-gray-700 text-white p-4 rounded-md"
+                           data-toggle="collapse" data-target="#comments-container">
+                           <p><strong>Comments</strong></p>
+                        </div>
+                        <div id="comments-container"
+                           class="accordion-body hidden p-4 border border-gray-800 bg-gray-800 text-white">
+                           <!-- Komentar akan ditampilkan di sini -->
+                        </div>
+                     </div>
                      <button type="button" id="edit-article-btn"
-                        class="focus:outline-none text-gray-100 hover:underline hover:underline text-sm mr-6">Edit
+                        class="focus:outline-none text-gray-100 hover:underline hover:underline text-sm mr-6 mt-4">Edit
                         Guide</button>
                      <button type="button" id="delete-article-btn"
                         class="focus:outline-none text-red-500 hover:underline hover:underline text-sm">Delete
                         Guide</button>
                   </div>
                </div>
+            </div>
          </main>
+
+
       </div>
 
    </section>

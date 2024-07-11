@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
    });
 });
 
-
 // PROSES MEMBUAT ARTIKEL
 document.addEventListener("DOMContentLoaded", () => {
    // Mendapatkan elemen input
@@ -250,7 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
    fetchArticles();
 });
 
-// Edit
 document.addEventListener("DOMContentLoaded", () => {
    // Mendapatkan elemen select untuk kategori artikel
    const categorySelect = document.getElementById("article-category-edit");
@@ -262,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
    const articleImageInput = document.querySelector("#file_input-edit");
    const updateArticleButton = document.querySelector("#edit-article-btn");
    const deleteArticleButton = document.querySelector("#delete-article-btn");
+   const commentsContainer = document.querySelector("#comments-container");
 
    // Mendapatkan UID dari query parameter URL
    function getQueryParam(param) {
@@ -282,6 +281,9 @@ document.addEventListener("DOMContentLoaded", () => {
             articleTitleInput.value = articleData.ArticleTitle;
             simplemde.value(articleData.ArticleContent); // Pastikan SimpleMDE sudah diinisialisasi dengan benar
             displayCurrentThumbnailImage.src = articleData.ArticleImage;
+
+            // Memuat komentar
+            loadComments(articleData.Comments);
          } else {
             console.log("No data available");
          }
@@ -290,6 +292,57 @@ document.addEventListener("DOMContentLoaded", () => {
       });
    } else {
       console.log("No UID provided");
+   }
+
+   function loadComments(comments) {
+      commentsContainer.innerHTML = ""; // Kosongkan kontainer komentar
+
+      if (comments) {
+         Object.keys(comments).forEach(commentUID => {
+            const commentData = comments[commentUID];
+            const commentElement = document.createElement("div");
+            commentElement.classList.add("comment", "mb-2");
+
+            commentElement.innerHTML = `
+                  <p><strong>Email:</strong> ${commentData.email}</p>
+                  <p><strong>Comment:</strong> ${commentData.text}</p>
+                  <button class="delete-comment-btn text-red-500 hover:text-red-500 hover:underline" data-comment-id="${commentUID}">Delete Comment</button>
+              `;
+
+            commentsContainer.appendChild(commentElement);
+
+            // Event listener untuk tombol delete
+            commentElement.querySelector(".delete-comment-btn").addEventListener("click", () => {
+               const confirmDelete = confirm("Are you sure you want to delete this comment?");
+               if (confirmDelete) {
+                  deleteComment(commentUID);
+               }
+            });
+         });
+      } else {
+         commentsContainer.innerHTML = "<p>No comments available.</p>";
+      }
+
+      // Event listener untuk toggle accordion
+      document.querySelector(".accordion-header").addEventListener("click", () => {
+         const target = document.querySelector("#comments-container");
+         target.classList.toggle("hidden");
+      });
+   }
+
+
+
+   // Fungsi untuk menghapus komentar
+   function deleteComment(commentUID) {
+      const commentRef = databaseRef(db, `Articles/${uid}/Comments/${commentUID}`);
+
+      remove(commentRef).then(() => {
+         alert("Comment deleted successfully!");
+         location.reload(); // Refresh halaman untuk memperbarui daftar komentar
+      }).catch((error) => {
+         console.error("Error deleting comment: ", error);
+         alert("Failed to delete comment. Please try again.");
+      });
    }
 
    // Fungsi untuk update artikel
@@ -380,6 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
    });
 });
+
 
 // FUNGSI SEARCH
 document.addEventListener("DOMContentLoaded", () => {
